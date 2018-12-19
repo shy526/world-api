@@ -66,4 +66,11 @@ public interface WeatherService {
      * @return  List<WeatherCode>
      */
     List<WeatherCode> selectWeatherCodeByZoneType(ZoneTypeEnum zoneTypeEnum);
+
+    /**
+     * 查询具体的天气代码
+     * @param parent 父Id
+     * @return String
+     */
+    String selectWeatherCoderByParent(Integer parent);
 }

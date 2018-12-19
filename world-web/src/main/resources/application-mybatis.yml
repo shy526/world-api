@@ -1,0 +1,12 @@
+mybatis:
+  config-location: classpath:/mybatis/mybatis-config.xml
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+logging:
+  level:
+    root: WARN
+mapper:
+  not-empty: false
+  mappers:
+    - top.ccxh.reptile.weather.mapper.BaseMapper
+    - tk.mybatis.mapper.common.Mapper
+  identity: MYSQL

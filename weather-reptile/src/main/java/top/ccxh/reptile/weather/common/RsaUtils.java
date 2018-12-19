@@ -171,12 +171,7 @@ public class RsaUtils {
         return out.toByteArray();
     }
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        RsaUtils jdkRSAUtil = new RsaUtils();
-        jdkRSAUtil.publicEncoder2PrivatedeCoder();
-        jdkRSAUtil.privateEncoder2PublcideCoder();
 
-    }
     /**
      * 公钥加密=>私钥解密
      * 示例

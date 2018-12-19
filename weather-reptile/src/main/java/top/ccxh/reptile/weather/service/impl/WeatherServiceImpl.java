@@ -3,7 +3,6 @@ package top.ccxh.reptile.weather.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,6 +176,11 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public List<WeatherCode> selectWeatherCodeByZoneType(ZoneTypeEnum zoneTypeEnum) {
         return weatherCodeMapper.selectWeatherCodeByZoneType(zoneTypeEnum.getCode());
+    }
+
+    @Override
+    public String selectWeatherCoderByParent(Integer parent) {
+        return weatherCodeMapper.selectWeatherCoderByParent(parent);
     }
 
     @Override
