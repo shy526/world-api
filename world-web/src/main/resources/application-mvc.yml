@@ -1,0 +1,12 @@
+spring:
+  mvc:
+    view:
+      suffix: .ftl
+      #prefix: /WEB-INF/
+  resources:
+  #static-locations: file:D:\project\product-lib\product-web\src\main\resources\public
+  freemarker:
+    charset: UTF-8
+    content-type: text/html; charset=utf-8
+    #template-loader-path: classpath:ftl
+    cache: false

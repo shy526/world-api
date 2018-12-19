@@ -1,6 +1,5 @@
 package top.ccxh.reptile.weather.common;
 
-import javax.crypto.Cipher;
 import javax.crypto.KeyAgreement;
 import javax.crypto.SecretKey;
 import javax.crypto.interfaces.DHPublicKey;
@@ -42,18 +41,17 @@ public class JdkRSAUtil {
     /**
      * 根据生成本地秘钥秘钥
      *
-     * @param
+     * @param publicKey
      */
-    public static  KeyPair  generatorKey(byte[] publicKeyBytes) {
+    public static  SecretKey  generatorKey(byte[] publicKey) {
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("DH");
-            X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKeyBytes);
-            PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
-            DHParameterSpec params = ((DHPublicKey) publicKey).getParams();
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("DH");
-            keyPairGenerator.initialize(params);
-            KeyPair keyPair = keyPairGenerator.generateKeyPair();
-            return keyPair;
+            X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey);
+            DHPublicKey myPublicKey = (DHPublicKey) keyFactory.generatePublic(x509EncodedKeySpec);
+            DHParameterSpec params = myPublicKey.getParams();
+            KeyPair keyPair = initKey(params);
+            PrivateKey privateKey = keyPair.getPrivate();
+            return
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,84 +59,21 @@ public class JdkRSAUtil {
     }
 
     public static void main(String[] args) {
-        try {
-            // 发送方密钥
-            KeyPairGenerator senderKeyPairGenerator = KeyPairGenerator.getInstance("DH");
-            senderKeyPairGenerator.initialize(512);
-            KeyPair senderKeyPair = senderKeyPairGenerator.generateKeyPair();
-            byte[] senderPublicKeyEnc = senderKeyPair.getPublic().getEncoded();
-            /**
-             * 构建密钥
-             */
-            KeyFactory keyFactory = KeyFactory.getInstance("DH");
-            X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(senderPublicKeyEnc);
-            PublicKey receiverPublicKey = keyFactory.generatePublic(x509EncodedKeySpec);
-            DHParameterSpec params = ((DHPublicKey) receiverPublicKey).getParams();
-            KeyPairGenerator receiverKeyPairGenerator = KeyPairGenerator.getInstance("DH");
-            receiverKeyPairGenerator.initialize(params);
-            KeyPair receiverKeyPair = receiverKeyPairGenerator.generateKeyPair();
-
-            /**
-             * 生成本地密钥
-             */
-            KeyAgreement keyAgreement = KeyAgreement.getInstance("DH");
-            keyAgreement.init(receiverKeyPair.getPrivate());
-            keyAgreement.doPhase(receiverPublicKey, true);
-            SecretKey secretKey = keyAgreement.generateSecret("DES");
-
-            KeyFactory senderKeyFactory=KeyFactory.getInstance("DH");
-            X509EncodedKeySpec x509EncodedKeySpec2 = new X509EncodedKeySpec(receiverKeyPair.getPublic().getEncoded());
-            PublicKey publicKey = senderKeyFactory.generatePublic(x509EncodedKeySpec2);
-            KeyAgreement keyAgreement2  = KeyAgreement.getInstance("DH");
-            keyAgreement2.init(senderKeyPair.getPrivate());
-            keyAgreement2.doPhase(publicKey,true);
-            SecretKey des = keyAgreement2.generateSecret("DES");
-            if (des.equals(secretKey)){
-                System.out.println("des = " + des);
-            }
-            Cipher cipher=Cipher.getInstance("DES");
-            cipher.init(Cipher.ENCRYPT_MODE,secretKey);
-            byte[] bytes = cipher.doFinal("ccxh".getBytes());
-            cipher.init(Cipher.DECRYPT_MODE,des);
-            byte[] bytes1 = cipher.doFinal(bytes);
-            System.out.println(new String(bytes1));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //发送生成秘钥
+        byte[] send = initKey();
+        //接收方key
+        SecretKey receiverKey = generatorKey(send);
+        generatorKey(receiverKey.ge)
     }
 
-    public static byte[] local(RSAKey rsaKey){
-  /*      KeyAgreement keyAgreement = KeyAgreement.getInstance("DH");
-        keyAgreement.init();
+    public static byte[] local(){
+        KeyAgreement keyAgreement = KeyAgreement.getInstance("DH");
+        keyAgreement.init(privateKey);
         keyAgreement.doPhase(myPublicKey, true);
-        SecretKey secretKey = keyAgreement.generateSecret("AES");*/
-        return null;
+        SecretKey secretKey = keyAgreement.generateSecret("AES");
     }
 
-    public static class RSAKey{
-        private byte[] privateKey;
-        private byte[] publicvateKey;
-
-        public RSAKey(KeyPair keyPair) {
-            this.privateKey = keyPair.getPrivate().getEncoded();
-            this.publicvateKey = keyPair.getPublic().getEncoded();
-        }
-
-        public byte[] getPrivateKey() {
-            return privateKey;
-        }
-
-        public void setPrivateKey(byte[] privateKey) {
-            this.privateKey = privateKey;
-        }
-
-        public byte[] getPublicvateKey() {
-            return publicvateKey;
-        }
-
-        public void setPublicvateKey(byte[] publicvateKey) {
-            this.publicvateKey = publicvateKey;
-        }
+    public class RSAKey{
+        private byte[]
     }
 }
