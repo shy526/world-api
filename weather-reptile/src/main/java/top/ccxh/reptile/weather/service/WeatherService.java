@@ -73,4 +73,20 @@ public interface WeatherService {
      * @return String
      */
     String selectWeatherCoderByParent(Integer parent);
+
+    /**
+     * 带缓冲的查询天气
+     * @param code 天气代码
+     * @return WeatherInfo
+     */
+    WeatherInfo selectWeatherInfoCache(String code);
+
+    /**
+     * 查询天气
+     * @param code 天气代码
+     * @return WeatherInfo
+     */
+    WeatherInfo selectWeatherInfo(String code);
+
+
 }

@@ -82,7 +82,6 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
 
-
     /**
      * 补充天气数据
      *
@@ -111,7 +110,7 @@ public class WeatherServiceImpl implements WeatherService {
                 weatherInfo.setWatchTime(Long.valueOf(fctime));
             } else {
                 try {
-                    if (!StringUtils.isEmpty(fctime)){
+                    if (!StringUtils.isEmpty(fctime)) {
                         weatherInfo.setWatchTime(YYYYMMDDHH.parse(fctime.toString()).getTime());
                     }
 
@@ -131,7 +130,7 @@ public class WeatherServiceImpl implements WeatherService {
                     .header("Referer", " http://www.weather.com.cn/weathern/101210101.shtml").get();
             String text = document.body().text();
             if (text.contains("404")) {
-               throw new RuntimeException(url+" \n无法访问");
+                throw new RuntimeException(url + " \n无法访问");
             }
             if (!StringUtils.isEmpty(text)) {
                 String jsonStr = text.substring(text.indexOf("{"));
@@ -181,6 +180,16 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public String selectWeatherCoderByParent(Integer parent) {
         return weatherCodeMapper.selectWeatherCoderByParent(parent);
+    }
+
+    @Override
+    public WeatherInfo selectWeatherInfoCache(String code) {
+        return this.selectWeatherInfo(code);
+    }
+
+    @Override
+    public WeatherInfo selectWeatherInfo(String code) {
+        return null;
     }
 
     @Override
