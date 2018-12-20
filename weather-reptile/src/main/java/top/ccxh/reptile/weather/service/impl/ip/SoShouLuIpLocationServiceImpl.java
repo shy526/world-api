@@ -1,4 +1,4 @@
-package top.ccxh.reptile.weather.service.impl;
+package top.ccxh.reptile.weather.service.impl.ip;
 
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
