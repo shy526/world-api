@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import org.springframework.util.StringUtils;
@@ -30,6 +32,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@CacheConfig(cacheNames = "weather")
 public class WeatherServiceImpl implements WeatherService {
     private final static String CITY_URL = "http://www.weather.com.cn/data/list3/city%s.xml";
     private final static String WEATHER_URL = "http://d1.weather.com.cn/sk_2d/%s.html?_=%s";
@@ -183,13 +186,27 @@ public class WeatherServiceImpl implements WeatherService {
     }
 
     @Override
-    public WeatherInfo selectWeatherInfoCache(String code) {
-        return this.selectWeatherInfo(code);
+    @Cacheable(key = "targetClass.simpleName + '-'+methodName+'-'+#p0")
+    public WeatherInfo selectWeatherInfoByCodeIdCache(Integer weatherCodeId) {
+        System.out.println("没有缓冲");
+        return this.selectWeatherInfoByCodeId(weatherCodeId);
     }
 
     @Override
-    public WeatherInfo selectWeatherInfo(String code) {
-        return null;
+    public WeatherInfo selectWeatherInfoByCodeId(Integer weatherCodeId) {
+        return weatherInfoMapper.selectWeatherInfoByCoderId(weatherCodeId);
+    }
+
+    @Override
+    public WeatherInfo selectWeatherInfoByCode(String name) {
+        WeatherCode weatherCode = weatherCodeMapper.selectWeatherCodeByName(name);
+        return this.selectWeatherInfoByCodeId(weatherCode.getId());
+    }
+
+    @Override
+    @Cacheable(key = "targetClass.simpleName+ '-'+methodName+'-'+#result.id")
+    public WeatherInfo selectWeatherInfoByCodeCache(String name) {
+        return this.selectWeatherInfoByCode(name);
     }
 
     @Override

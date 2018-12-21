@@ -38,7 +38,7 @@ public class WeatherController {
         return WebResult.succeed(weatherService.selectWeatherCoderByParent(parent));
     }
 
-    public WebResult<WeatherInfo> getWeatherInfo(@NotEmpty String code){
-        return WebResult.succeed(weatherService.selectWeatherInfoCache(code));
+    public WebResult<WeatherInfo> getWeatherInfo(@NotEmpty Integer code){
+        return WebResult.succeed(weatherService.selectWeatherInfoByCodeIdCache(code));
     }
 }

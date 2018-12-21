@@ -23,4 +23,6 @@ public interface WeatherCodeMapper extends BaseMapper<WeatherCode> {
      */
     @Select("SELECT name FROM t_weather_code WHERE parent=#{parent} AND zone_type=3")
     String selectWeatherCoderByParent(Integer parent);
+    @Select("select * FROM t_weather_code WHERE name=#{name}")
+    WeatherCode selectWeatherCodeByName(String name);
 }

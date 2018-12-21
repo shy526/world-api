@@ -3,6 +3,7 @@ package top.ccxh.reptile.weather.pojo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import top.ccxh.reptile.weather.pojo.BasePojo;
 
 import javax.persistence.Table;
 

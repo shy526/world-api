@@ -76,17 +76,29 @@ public interface WeatherService {
 
     /**
      * 带缓冲的查询天气
-     * @param code 天气代码
+     * @param weatherCodeId 地区Id
      * @return WeatherInfo
      */
-    WeatherInfo selectWeatherInfoCache(String code);
+    WeatherInfo selectWeatherInfoByCodeIdCache(Integer weatherCodeId);
 
     /**
      * 查询天气
-     * @param code 天气代码
+     * @param weatherCodeId 地区Id
      * @return WeatherInfo
      */
-    WeatherInfo selectWeatherInfo(String code);
+    WeatherInfo selectWeatherInfoByCodeId(Integer weatherCodeId);
 
+    /**
+     * 查询天气
+     * @param name 地区天气代码
+     * @return WeatherInfo
+     */
+    WeatherInfo selectWeatherInfoByCode(String name);
+    /**
+     * 带缓冲 查询天气
+     * @param name 地区天气代码
+     * @return WeatherInfo
+     */
+    WeatherInfo selectWeatherInfoByCodeCache(String name);
 
 }
