@@ -4,14 +4,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import top.ccxh.world.web.common.WebResult;
 import top.ccxh.world.web.common.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
-@ControllerAdvice
+/**
+ * 统一异常处理
+ * @author ccxh
+ */
+@RestControllerAdvice
 @Slf4j
 public class WebControllerAdvice {
+    private final static String ERROR_PAGE = "error_page";
     /**
      * 应用到所有@RequestMapping注解方法，在其执行之前初始化数据绑定器
      *
@@ -45,9 +51,12 @@ public class WebControllerAdvice {
         if (WebUtils.isAjax(httpRequest)) {
             result = WebResult.failure(e.getMessage());
         } else {
-
+            ModelAndView modelAndView=new ModelAndView(ERROR_PAGE);
+            model.addAttribute("message",e.getMessage());
+            model.addAttribute("exception",e);
+            model.addAttribute("url",httpRequest.getRequestURI());
+            result=modelAndView;
         }
-        log.error(e.getMessage(), e);
         return result;
     }
 

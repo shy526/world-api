@@ -13,8 +13,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan({"top.ccxh.reptile.weather","top.ccxh.world.web"})
-@MapperScan("top.ccxh.reptile.weather.mapper")
+@ComponentScan({"top.ccxh.reptile.weather","top.ccxh.world.web","top.ccxh.reptile.weather.mapper"})
 public class WorldWebApplication {
     public static void main(String[] args) {
         SpringApplication.run(WorldWebApplication.class, args);
